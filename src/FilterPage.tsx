@@ -6,6 +6,12 @@ import {
 } from "react-router-dom";
 import { IoChevronForward } from "react-icons/io5";
 import { FaGlobeAmericas } from "react-icons/fa";
+import { MdFilterAltOff } from "react-icons/md";
+import { TbMapPin } from "react-icons/tb";
+import { PiBuildingOfficeBold } from "react-icons/pi";
+import { BiMapAlt } from "react-icons/bi";
+import { BsArrowDown } from "react-icons/bs";
+
 
 /* =========================
    TYPES
@@ -115,9 +121,11 @@ function Sidebar({
         </h2>
 
         <div>
-          <label className="form-label">
+          <label className="form-label flex items-center gap-2">
             PROVINSI
           </label>
+          <div className="relative">
+            <BiMapAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <select
             name="province"
             value={selectedProvince || ""}
@@ -133,13 +141,16 @@ function Sidebar({
               </option>
             ))}
           </select>
+          </div>
         </div>
 
         <div>
-          <label className="form-label">
+          <label className="form-label flex items-center gap-2">
             KOTA/KABUPATEN
           </label>
-          <select
+          <div className="relative">
+            <PiBuildingOfficeBold className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <select
             name="regency"
             value={selectedRegency || ""}
             disabled={!selectedProvince}
@@ -155,34 +166,39 @@ function Sidebar({
               </option>
             ))}
           </select>
+          </div>
         </div>
 
         <div>
-          <label className="form-label">
+          <label className="form-label flex items-center gap-2">
             KECAMATAN
           </label>
-          <select
-            name="district"
-            value={selectedDistrict || ""}
-            disabled={!selectedRegency}
-            onChange={(e) =>
-              handleChange("district", e.target.value)
-            }
-            className="form-select"
-          >
-            <option value="">Pilih Kecamatan</option>
-            {filteredDistricts.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className="relative">
+            <TbMapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <select
+              name="district"
+              value={selectedDistrict || ""}
+              disabled={!selectedRegency}
+              onChange={(e) =>
+                handleChange("district", e.target.value)
+              }
+              className="form-select"
+            >
+              <option value="">Pilih Kecamatan</option>
+              {filteredDistricts.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>   
 
         <button
           onClick={handleReset}
-          className="reset-button"
+          className="reset-button flex items-center justify-center gap-2"
         >
+          <MdFilterAltOff />
           RESET
         </button>
       </div>
@@ -267,6 +283,10 @@ function MainContent({
         )}
 
         {regencyName && (
+          <BsArrowDown className="text-xl text-gray-400" />
+        )}
+
+        {regencyName && (
           <div>
             <p className="location-label">
               KOTA / KABUPATEN
@@ -275,6 +295,10 @@ function MainContent({
               {regencyName}
             </h2>
           </div>
+        )}
+
+        {regencyName && districtName && (
+          <BsArrowDown className="text-xl text-gray-400" />
         )}
 
         {districtName && (

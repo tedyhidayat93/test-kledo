@@ -21,7 +21,7 @@
 }
 
 .form-select {
-  @apply w-full border rounded-xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer;
+  @apply w-full border rounded-xl pl-8 pr-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer;
 }
 
 .form-select:disabled {
@@ -30,7 +30,7 @@
 
 @media (min-width: 1024px) {
   .form-select {
-    @apply px-4 py-3 text-base;
+    @apply pl-8 pr-3 py-3 text-base;
   }
 }
 
@@ -58,12 +58,12 @@
 }
 
 .content-container {
-  @apply space-y-8 w-full max-w-4xl;
+  @apply space-y-2 w-full max-w-4xl flex flex-col gap-2 items-center;
 }
 
 @media (min-width: 1024px) {
   .content-container {
-    @apply space-y-20;
+    @apply space-y-10;
   }
 }
 
