@@ -21,7 +21,7 @@
 }
 
 .form-select {
-  @apply w-full border rounded-xl pl-8 pr-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm cursor-pointer;
+  @apply w-full border border-gray-300 font-medium text-xs rounded-xl pl-8 pr-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer;
 }
 
 .form-select:disabled {
@@ -30,17 +30,17 @@
 
 @media (min-width: 1024px) {
   .form-select {
-    @apply pl-8 pr-3 py-3 text-base;
+    @apply pl-8 pr-3 py-3 text-sm;
   }
 }
 
 .reset-button {
-  @apply w-full mt-4 border-2 border-blue-500 text-blue-600 rounded-xl py-2 font-semibold hover:bg-blue-50 transition text-sm cursor-pointer;
+  @apply w-full mt-4 border-2 border-blue-500 text-black hover:text-blue-600 rounded-xl py-2 font-semibold hover:bg-blue-50 transition text-xs cursor-pointer;
 }
 
 @media (min-width: 1024px) {
   .reset-button {
-    @apply mt-5 py-3 text-base;
+    @apply mt-5 py-3 text-black hover:text-blue-600 text-xs;
   }
 }
 

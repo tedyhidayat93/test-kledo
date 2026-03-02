@@ -196,7 +196,7 @@ function Sidebar({
 
         <button
           onClick={handleReset}
-          className="reset-button flex items-center justify-center gap-2"
+          className="reset-button mt-8! lg:mt-14! flex items-center justify-center gap-2"
         >
           <MdFilterAltOff />
           RESET
