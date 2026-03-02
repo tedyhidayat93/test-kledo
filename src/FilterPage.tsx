@@ -1,3 +1,4 @@
+import React from "react";
 import {
   useLoaderData,
   useSearchParams,
@@ -6,11 +7,66 @@ import {
 import { IoChevronForward } from "react-icons/io5";
 import { FaGlobeAmericas } from "react-icons/fa";
 
+/* =========================
+   TYPES
+========================= */
+interface Province {
+  id: number;
+  name: string;
+}
+
+interface Regency {
+  id: number;
+  name: string;
+  province_id: number;
+}
+
+interface District {
+  id: number;
+  name: string;
+  regency_id: number;
+}
+
+interface LoaderData {
+  provinces: Province[];
+  regencies: Regency[];
+  districts: District[];
+}
+
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+interface SidebarProps {
+  provinces: Province[];
+  filteredRegencies: Regency[];
+  filteredDistricts: District[];
+  selectedProvince: string | null;
+  selectedRegency: string | null;
+  selectedDistrict: string | null;
+  handleChange: (name: string, value: string) => void;
+  handleReset: () => void;
+}
+
+interface BreadcrumbProps {
+  selectedProvince: string | null;
+  selectedRegency: string | null;
+  selectedDistrict: string | null;
+  provinceName: string;
+  regencyName?: string;
+  districtName?: string;
+}
+
+interface MainContentProps {
+  provinceName: string;
+  regencyName?: string;
+  districtName?: string;
+}
 
 /* =========================
    DATA LOADER
 ========================= */
-export async function loader() {
+export async function loader(): Promise<LoaderData> {
   const res = await fetch("/data/indonesia_regions.json");
 
   if (!res.ok) {
@@ -23,7 +79,7 @@ export async function loader() {
 /* =========================
    LAYOUT COMPONENT
 ========================= */
-function Layout({ children }) {
+function Layout({ children }: LayoutProps): React.ReactElement {
   return (
     <div className="min-h-screen w-full bg-slate-50 flex flex-col lg:flex-row">
       {children}
@@ -34,7 +90,16 @@ function Layout({ children }) {
 /* =========================
    SIDEBAR COMPONENT
 ========================= */
-function Sidebar({ provinces, filteredRegencies, filteredDistricts, selectedProvince, selectedRegency, selectedDistrict, handleChange, handleReset }) {
+function Sidebar({ 
+  provinces, 
+  filteredRegencies, 
+  filteredDistricts, 
+  selectedProvince, 
+  selectedRegency, 
+  selectedDistrict, 
+  handleChange, 
+  handleReset 
+}: SidebarProps): React.ReactElement {
   return (
     <aside className="w-full lg:w-80 border-r border-gray-200 p-6 lg:p-8 flex flex-col">
       <h1 className="text-lg font-semibold mb-6 lg:mb-10 flex items-center gap-2">
@@ -114,12 +179,12 @@ function Sidebar({ provinces, filteredRegencies, filteredDistricts, selectedProv
           </select>
         </div>
 
-          <button
+        <button
           onClick={handleReset}
           className="reset-button"
-          >
+        >
           RESET
-          </button>
+        </button>
       </div>
 
     </aside>
@@ -129,7 +194,14 @@ function Sidebar({ provinces, filteredRegencies, filteredDistricts, selectedProv
 /* =========================
    BREADCRUMB COMPONENT
 ========================= */
-function Breadcrumb({ selectedProvince, selectedRegency, selectedDistrict, provinceName, regencyName, districtName }) {
+function Breadcrumb({ 
+  selectedProvince, 
+  selectedRegency, 
+  selectedDistrict, 
+  provinceName, 
+  regencyName, 
+  districtName 
+}: BreadcrumbProps): React.ReactElement {
   return (
     <div className="breadcrumb">
         <span className="whitespace-nowrap">Indonesia</span>
@@ -161,7 +233,11 @@ function Breadcrumb({ selectedProvince, selectedRegency, selectedDistrict, provi
 /* =========================
    MAIN CONTENT COMPONENT
 ========================= */
-function MainContent({ provinceName, regencyName, districtName }) {
+function MainContent({ 
+  provinceName, 
+  regencyName, 
+  districtName 
+}: MainContentProps): React.ReactElement {
   return (
     <main className="main-content">
       <div className="content-container">
@@ -204,35 +280,35 @@ function MainContent({ provinceName, regencyName, districtName }) {
 /* =========================
    HELPER FUNCTIONS
 ========================= */
-function filterRegencies(regencies, selectedProvince) {
+function filterRegencies(regencies: Regency[], selectedProvince: string | null): Regency[] {
   return selectedProvince
     ? regencies.filter((r) => r.province_id === Number(selectedProvince))
     : [];
 }
 
-function filterDistricts(districts, selectedRegency) {
+function filterDistricts(districts: District[], selectedRegency: string | null): District[] {
   return selectedRegency
     ? districts.filter((d) => d.regency_id === Number(selectedRegency))
     : [];
 }
 
-function getProvinceName(provinces, selectedProvince) {
+function getProvinceName(provinces: Province[], selectedProvince: string | null): string {
   return provinces.find((p) => p.id === Number(selectedProvince))?.name || "Indonesia";
 }
 
-function getRegencyName(filteredRegencies, selectedRegency) {
+function getRegencyName(filteredRegencies: Regency[], selectedRegency: string | null): string | undefined {
   return filteredRegencies.find((r) => r.id === Number(selectedRegency))?.name;
 }
 
-function getDistrictName(filteredDistricts, selectedDistrict) {
+function getDistrictName(filteredDistricts: District[], selectedDistrict: string | null): string | undefined {
   return filteredDistricts.find((d) => d.id === Number(selectedDistrict))?.name;
 }
 
 /* =========================
    DEFAULT EXPORTED COMPONENT
 ========================= */
-export default function FilterPage() {
-  const { provinces, regencies, districts } = useLoaderData();
+export default function FilterPage(): React.ReactElement {
+  const { provinces, regencies, districts }: LoaderData = useLoaderData();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -250,7 +326,7 @@ export default function FilterPage() {
 
   /* ================= HANDLE CHANGE ================= */
 
-  const handleChange = (name, value) => {
+  const handleChange = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams);
 
     if (value) {

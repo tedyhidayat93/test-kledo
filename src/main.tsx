@@ -5,7 +5,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import FilterPage, { loader as filterLoader } from "./FilterPage";
+import FilterPage, { loader as filterLoader } from "./FilterPage.tsx";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
 );
