@@ -58,7 +58,7 @@ interface BreadcrumbProps {
 }
 
 interface MainContentProps {
-  provinceName: string;
+  provinceName?: string;
   regencyName?: string;
   districtName?: string;
 }
@@ -241,15 +241,30 @@ function MainContent({
   return (
     <main className="main-content">
       <div className="content-container">
-        {/* Province */}
-        <div>
-          <p className="location-label">
-            PROVINSI
-          </p>
-          <h2 className="province-title">
-            {provinceName}
-          </h2>
-        </div>
+        {!provinceName && !regencyName && !districtName && (
+          <div className="text-center py-16">
+            <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaGlobeAmericas className="text-blue-500 text-2xl" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              Belum ada wilayah yang dipilih
+            </h2>
+            <p className="text-gray-500">
+              Silakan pilih provinsi dari dropdown di samping untuk melihat informasi wilayah
+            </p>
+          </div>
+        )}
+
+        {provinceName && (
+          <div>
+            <p className="location-label">
+              PROVINSI
+            </p>
+            <h2 className="province-title">
+              {provinceName}
+            </h2>
+          </div>
+        )}
 
         {regencyName && (
           <div>
@@ -293,7 +308,7 @@ function filterDistricts(districts: District[], selectedRegency: string | null):
 }
 
 function getProvinceName(provinces: Province[], selectedProvince: string | null): string {
-  return provinces.find((p) => p.id === Number(selectedProvince))?.name || "Indonesia";
+  return provinces.find((p) => p.id === Number(selectedProvince))?.name || "";
 }
 
 function getRegencyName(filteredRegencies: Regency[], selectedRegency: string | null): string | undefined {
